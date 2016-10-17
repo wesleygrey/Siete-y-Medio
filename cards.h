@@ -68,6 +68,7 @@ class Hand {
       // You decide what functions you'll need...
 
    private:
+	vector<Card> cur_hand;
       // You decide what fields you'll need...
 };
 

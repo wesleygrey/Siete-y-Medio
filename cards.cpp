@@ -189,6 +189,17 @@ bool Card::operator < (Card card2) const {
    Hand class
    ************************************************* */
 // Implemente the member functions of the Hand class here.
+Hand::Hand(){
+	cur_hand.clear();
+}
+
+void Hand::push_back(Card c){
+	cur_hand.push_back(c);
+}
+
+void Hand::reshuffle(){
+	cur_hand.clear();
+}
 
 
 
@@ -196,3 +207,19 @@ bool Card::operator < (Card card2) const {
    Player class
    ************************************************* */
 // Implemente the member functions of the Player class here.
+Player::Player(int m){
+	money = m;
+	rounds = 0;
+}
+
+int Player::get_money(){
+	return money;
+}
+
+void Player::subtract_bet(int bet){
+	money -= bet;
+}
+
+void Player::collect_prize(int prize){
+	money += prize;
+}

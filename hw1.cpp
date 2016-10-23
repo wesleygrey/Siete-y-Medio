@@ -4,6 +4,7 @@
 #include <vector>
 #include <iomanip>
 #include <stdio.h>
+#include <algorithm>
 #include "cards.h"
 
 int main() {
@@ -22,9 +23,16 @@ int main() {
 	while ((player.get_money() >= 0 && dealer_losses < MAX_DEALER_LOSSES)|| player.get_rounds() == 0){
 
 		char another_card = 'y';
-		std::cout << "You have $" << player.get_money() << ". Enter bet: ";
-		std::cin >> bet;
 
+		do {
+			std::cout << "You have $" << player.get_money() << ". Enter bet: ";
+			std::cin >> bet;
+			if (bet > player.get_money()) {
+				std::cout << "You don't have $" << bet << " to bet. Try again." << std::endl;
+				bet = 0;
+			}
+		}while (bet == 0);
+		
 		Card first_card;
 		my_hand.push_back(first_card);
 		my_hand.add_to_total(first_card.get_rank());
@@ -38,6 +46,7 @@ int main() {
 				std::cout << std::setw(20)
 					<< "(" << my_hand.get_cur_hand().back().get_english_rank() << " of "
 					<< my_hand.get_cur_hand().back().get_english_suit() << ")" << std::endl << std::endl;
+				std::sort(my_hand.get_cur_hand().begin(), my_hand.get_cur_hand().end());
 			}
 
 			std::cout << "Your cards:" << std::endl;
@@ -58,10 +67,6 @@ int main() {
 				my_hand.add_to_total(next_card->get_rank());
 				delete next_card;
 			}
-			//else if (another_card == 'n') {
-
-			//}
-
 		}
 
 		while (dealer_hand.get_total() <= MAX_HAND_TOTAL) {
@@ -92,6 +97,7 @@ int main() {
 				std::cout << std::setw(20)
 					<< "(" << dealer_hand.get_cur_hand().back().get_english_rank() << " of "
 					<< dealer_hand.get_cur_hand().back().get_english_suit() << ")" << std::endl << std::endl;
+				std::sort(dealer_hand.get_cur_hand().begin(), dealer_hand.get_cur_hand().end());
 			}
 
 			std::cout << "Dealer's cards:" << std::endl;
@@ -126,3 +132,5 @@ int main() {
 	}
 
 }
+/*Contact GitHub API Training Shop Blog About
+© 2016 GitHub, Inc.Terms Privacy Security Status Help*/

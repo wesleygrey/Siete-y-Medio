@@ -20,7 +20,7 @@ int main() {
 
 	newRound:
 
-	while ((player.get_money() >= 0 && dealer_losses < MAX_DEALER_LOSSES)|| player.get_rounds() == 0){
+	while ((player.get_money() > 0 && dealer_losses < MAX_DEALER_LOSSES)|| player.get_rounds() == 0){
 
 		char another_card = 'y';
 
@@ -46,7 +46,7 @@ int main() {
 				std::cout << std::setw(20)
 					<< "(" << my_hand.get_cur_hand().back().get_english_rank() << " of "
 					<< my_hand.get_cur_hand().back().get_english_suit() << ")" << std::endl << std::endl;
-				std::sort(my_hand.get_cur_hand().begin(), my_hand.get_cur_hand().end());
+				//std::sort(my_hand.get_cur_hand().begin(), my_hand.get_cur_hand().end());
 			}
 
 			std::cout << "Your cards:" << std::endl;
@@ -97,7 +97,7 @@ int main() {
 				std::cout << std::setw(20)
 					<< "(" << dealer_hand.get_cur_hand().back().get_english_rank() << " of "
 					<< dealer_hand.get_cur_hand().back().get_english_suit() << ")" << std::endl << std::endl;
-				std::sort(dealer_hand.get_cur_hand().begin(), dealer_hand.get_cur_hand().end());
+				//std::sort(dealer_hand.get_cur_hand().begin(), dealer_hand.get_cur_hand().end());
 			}
 
 			std::cout << "Dealer's cards:" << std::endl;
@@ -130,7 +130,14 @@ int main() {
 			}
 		}
 	}
-
+	
+	if (player.get_money() >= 0) {
+		std::cout << "You have $0. GAME OVER!" << std::endl
+			<< "Come back when you have more money." << std::endl << std::endl
+			<< "Bye!" << std::endl;
+	}
+	else if (dealer_losses >= MAX_DEALER_LOSSES) {
+		std::cout << "Congratulations! You beat the casino!" << std::endl << std::endl
+			<< "Bye!" << std::endl;
+	}
 }
-/*Contact GitHub API Training Shop Blog About
-© 2016 GitHub, Inc.Terms Privacy Security Status Help*/

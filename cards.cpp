@@ -173,8 +173,42 @@ string Card::get_english_rank() const {
 
 // Assigns a numerical value to card based on rank.
 // AS=1, DOS=2, ..., SIETE=7, SOTA=10, CABALLO=11, REY=12
-int Card::get_rank() const {
-	return static_cast<int>(rank) + 1;
+double Card::get_rank() const {
+	double value;
+	switch (rank) {
+	case AS:
+		value = 1;
+		break;
+	case DOS:
+		value = 2;
+		break;
+	case TRES:
+		value = 3;
+		break;
+	case CUATRO:
+		value = 4;
+		break;
+	case CINCO:
+		value = 5;
+		break;
+	case SEIS:
+		value = 6;
+		break;
+	case SIETE:
+		value = 7;
+		break;
+	case SOTA:
+		value = 0.5;
+		break;
+	case CABALLO:
+		value = 0.5;
+		break;
+	case REY:
+		value = 0.5;
+		break;
+	default: break;
+	}
+	return value;
 }
 
 // Comparison operator for cards
@@ -198,6 +232,7 @@ void Hand::push_back(Card c) {
 
 void Hand::reshuffle() {
 	cur_hand.clear();
+	total = 0;
 }
 
 vector<Card> Hand::get_cur_hand() {
@@ -236,6 +271,10 @@ Player class
 		money += prize;
 	}
 
-// Implemente the member functions of the Player class here.
-/*Contact GitHub API Training Shop Blog About
-© 2016 GitHub, Inc.Terms Privacy Security Status Help*/
+	int Player::get_rounds() {
+		return rounds;
+	}
+
+	void Player::increment_rounds() {
+		++rounds;
+	}

@@ -18,7 +18,7 @@ Gameplay continues until the player has $0, or the dealer loses $900.
 #include <vector>
 #include <iomanip>
 #include <stdio.h>
-#include <algorithm>
+//#include <algorithm>
 #include <fstream>
 #include "cards.h"
 
@@ -71,7 +71,7 @@ newRound:
 
 	while ((player.get_money() > 0 && dealer_losses < MAX_DEALER_LOSSES) || player.get_rounds() == 0) {
 
-		char another_card = 'x';
+		char another_card = 'n';
 
 		do {
 			std::cout << "You have $" << player.get_money() << ". Enter bet: ";

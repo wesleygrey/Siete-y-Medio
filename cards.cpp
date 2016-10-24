@@ -222,30 +222,38 @@ bool Card::operator < (Card card2) const {
 /* *************************************************
 Hand class
 ************************************************* */
+//Constructor: constructs Hand object with an empty vector of Card objects
 Hand::Hand() {
 	cur_hand.clear();
 }
 
+//Accessor: pushes Card c to the back of cur_hand
 void Hand::push_back(Card c) {
 	cur_hand.push_back(c);
 }
 
+//Accessor: clears the hand and resets total
 void Hand::reshuffle() {
 	cur_hand.clear();
 	total = 0;
 }
 
+//Accessor: returns the current hand as a vector of Card objects
 vector<Card> Hand::get_cur_hand() {
 	return cur_hand;
 }
 
+//Accessor: returns the point total of the hand 
 double Hand::get_total() {
 	return total;
 }
 
+//Accessor: adds 'add' to the total point value
 void Hand::add_to_total(double add) {
 	total += add;
 }
+
+//Accessor: resets the point toal to 0
 	void Hand::reset_total(){
 		total = 0;
 }
@@ -255,26 +263,32 @@ void Hand::add_to_total(double add) {
 /* *************************************************
 Player class
 ************************************************* */
-	Player::Player(int m) {
+
+//Constructor: constructs a Player object with money = int m
+Player::Player(int m) {
 		money = m;
 	}
-
-	int Player::get_money() {
+//Accessor: returns player's money
+int Player::get_money() {
 		return money;
 	}
 
+//Accessor: deducts the bet from player's total money
 	void Player::subtract_bet(int bet) {
 		money -= bet;
 	}
 
+//Accessor: rewards the bet to player's total money
 	void Player::collect_prize(int prize) {
 		money += prize;
 	}
 
+//Accessor: returns the number of rounds played so far
 	int Player::get_rounds() {
 		return rounds;
 	}
 
+//Accessor: adds one to the current # of rouCommented nds
 	void Player::increment_rounds() {
 		++rounds;
 	}

@@ -1,10 +1,11 @@
-/** insert description later*/
+/*/** insert description later*/
 
 #include <iostream>
 #include <vector>
 #include <iomanip>
 #include <stdio.h>
 #include <algorithm>
+#include <fstream>
 #include "cards.h"
 
 int main() {
@@ -16,11 +17,41 @@ int main() {
 	Hand dealer_hand;
 	int dealer_losses = 0;
 	int bet = 0;
+	ofstream gamelog;
+
+	gamelog.open("gamelog.txt");
 
 
-	newRound:
+newRound:
+	if (player.get_rounds() != 0) {
+		gamelog << "-----------------------------------------------" << std::endl << std::endl;
+		gamelog << "Game number: " << player.get_rounds();
+		gamelog << "          " << "Money left: $" << player.get_money()
+			<< std::endl << std::endl;
+		gamelog << "Your cards:" << std::endl;
+		for (size_t pos = 0; pos != my_hand.get_cur_hand().size(); ++pos) {
+			gamelog << "          "
+				<< my_hand.get_cur_hand()[pos].get_spanish_rank() << " de " << my_hand.get_cur_hand()[pos].get_spanish_suit();
+			gamelog << "          "
+				<< "(" << my_hand.get_cur_hand()[pos].get_english_rank() << " of "
+				<< my_hand.get_cur_hand()[pos].get_english_suit() << ")" << std::endl;
+		}
+		gamelog << "Your total: " << my_hand.get_total() << "." << std::endl << std::endl;
 
-	while ((player.get_money() > 0 && dealer_losses < MAX_DEALER_LOSSES)|| player.get_rounds() == 0){
+		gamelog << "Dealer's cards:" << std::endl;
+		for (size_t pos = 0; pos != dealer_hand.get_cur_hand().size(); ++pos) {
+			gamelog << "          "
+				<< dealer_hand.get_cur_hand()[pos].get_spanish_rank() << " de " << dealer_hand.get_cur_hand()[pos].get_spanish_suit();
+			gamelog << "          "
+				<< "(" << dealer_hand.get_cur_hand()[pos].get_english_rank() << " of "
+				<< dealer_hand.get_cur_hand()[pos].get_english_suit() << ")" << std::endl;
+		}
+		gamelog << "Dealer's total: " << dealer_hand.get_total() << "." << std::endl << std::endl;
+	}
+
+	my_hand.reshuffle(); dealer_hand.reshuffle();
+
+	while ((player.get_money() > 0 && dealer_losses < MAX_DEALER_LOSSES) || player.get_rounds() == 0) {
 
 		char another_card = 'y';
 
@@ -31,8 +62,8 @@ int main() {
 				std::cout << "You don't have $" << bet << " to bet. Try again." << std::endl;
 				bet = 0;
 			}
-		}while (bet == 0);
-		
+		} while (bet == 0);
+
 		Card first_card;
 		my_hand.push_back(first_card);
 		my_hand.add_to_total(first_card.get_rank());
@@ -75,13 +106,11 @@ int main() {
 				std::cout << "Too bad. You lose $" << bet << std::endl << std::endl;
 				player.subtract_bet(bet);
 				player.increment_rounds();
-				my_hand.reshuffle(); dealer_hand.reshuffle();
 				goto newRound;
 			}
 			else if (dealer_hand.get_total() == my_hand.get_total()) {
 				std::cout << "Nobody wins!" << std::endl << std::endl;
 				player.increment_rounds();
-				my_hand.reshuffle(); dealer_hand.reshuffle();
 				goto newRound;
 			}
 
@@ -117,20 +146,18 @@ int main() {
 					player.collect_prize(bet);
 					dealer_losses += bet;
 					player.increment_rounds();
-					my_hand.reshuffle(); dealer_hand.reshuffle();
 					goto newRound;
 				}
 				else if (my_hand.get_total() > MAX_HAND_TOTAL) {
 					std::cout << "House advantage! Too bad. You lose $" << bet << std::endl << std::endl;
 					player.subtract_bet(bet);
 					player.increment_rounds();
-					my_hand.reshuffle(); dealer_hand.reshuffle();
 					goto newRound;
 				}
 			}
 		}
 	}
-	
+
 	if (player.get_money() >= 0) {
 		std::cout << "You have $0. GAME OVER!" << std::endl
 			<< "Come back when you have more money." << std::endl << std::endl
@@ -140,4 +167,6 @@ int main() {
 		std::cout << "Congratulations! You beat the casino!" << std::endl << std::endl
 			<< "Bye!" << std::endl;
 	}
+	gamelog << "-----------------------------------------------";
+	gamelog.close();
 }

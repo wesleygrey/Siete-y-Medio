@@ -71,7 +71,7 @@ newRound:
 
 	while ((player.get_money() > 0 && dealer_losses < MAX_DEALER_LOSSES) || player.get_rounds() == 0) {
 
-		char another_card = 'y';
+		char another_card = 'x';
 
 		do {
 			std::cout << "You have $" << player.get_money() << ". Enter bet: ";

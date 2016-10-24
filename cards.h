@@ -1,6 +1,9 @@
 /* *************************************
 Ricardo Salazar, February 26, 2015
 Interface of a simple Card class
+
+Wes Hartmann, October 24, 2016
+Interface of Player and Hand classes
 ************************************* */
 
 #include <string>
@@ -61,39 +64,49 @@ class Hand {
 public:
 	// A vector of Cards
 	Hand();
-
+	
+	//these function manipulate the hand itself
 	void push_back(Card c);
 	void reshuffle();
+	
+	//accessor functions
+	//returns the current hand of the player or dealer
 	vector<Card> get_cur_hand();
 	double get_total();
+	
+	//adds appropriate value to hand total
 	void add_to_total(double add);
+	
+	//sets total back to zero
 	void reset_total();
-	// You decide what functions you'll need...
 
 private:
 	vector<Card> cur_hand;
 	double total;
-	// You decide what fields you'll need...
 };
 
 
 class Player {
 public:
 	// Constructor. 
-	//    Assigns initial amount of money
+	// Assigns initial amount of money
 	Player(int m);
 
+	//accessor function
 	int get_money();
+	int get_rounds();
+	
+	//these functions increase or decrease the player's money by the amount bet
 	void subtract_bet(int bet);
 	void collect_prize(int prize);
-	int get_rounds();
+	
+	//executes at the end of a round and increments the count by 1
 	void increment_rounds();
-	// You decide what functions you'll need...
+	
 
 private:
 	int money;
 	int rounds = 0;
-	// You decide what extra fields (if any) you'll need...
 };
 
 #endif
